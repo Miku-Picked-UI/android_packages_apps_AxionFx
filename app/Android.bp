@@ -34,7 +34,7 @@ android_app {
 
     use_embedded_native_libs: true,
 
-    overrides: ["AudioFX"],
+    // Miku-Picked UI: Miku UI ships Lineage AudioFX, keep it next to AxionFx.
 
     static_libs: [
         "androidx.activity_activity-compose",
@@ -51,8 +51,7 @@ android_app {
         "androidx.lifecycle_lifecycle-viewmodel-compose",
         "androidx.lifecycle_lifecycle-runtime-compose",
         "kotlinx-coroutines-core",
-        "ax_compose",
-        "ax_platform_hooks",
+        "AxionFx-ax_compose",
     ],
 
     kotlincflags: [

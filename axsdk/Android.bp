@@ -1,0 +1,42 @@
+/*
+ * SPDX-FileCopyrightText: 2025-2026 AxionOS
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Miku-Picked UI: the parts of AxionOS' android_axion_sdk (ax_compose and the
+ * SettingsFlow of ax_kt) that AxionFx uses, so AxionFx builds without the rest
+ * of the AxionOS SDK and framework.
+ * Source: https://github.com/AxionAOSP/android_axion_sdk/tree/lineage-23.2
+ */
+
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+}
+
+android_library {
+    name: "AxionFx-ax_compose",
+    manifest: "AndroidManifest.xml",
+    srcs: ["src/**/*.kt"],
+    resource_dirs: ["res"],
+    static_libs: [
+        "androidx.core_core-ktx",
+        "androidx.appcompat_appcompat",
+        "com.google.android.material_material",
+        "kotlin-stdlib",
+        "kotlinx-coroutines-android",
+        "kotlinx-coroutines-core",
+        "androidx.activity_activity-compose",
+        "androidx.compose.animation_animation",
+        "androidx.compose.animation_animation-core",
+        "androidx.compose.foundation_foundation",
+        "androidx.lifecycle_lifecycle-viewmodel-compose",
+        "androidx.compose.material3_material3",
+        "androidx.compose.material_material-icons-core",
+        "androidx.compose.material_material-icons-extended",
+        "androidx.compose.runtime_runtime",
+        "androidx.compose.ui_ui",
+    ],
+    libs: ["framework"],
+    kotlincflags: ["-Xjvm-default=all"],
+    use_resource_processor: true,
+    visibility: ["//packages/apps/AxionFx:__subpackages__"],
+}
