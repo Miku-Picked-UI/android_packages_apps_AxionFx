@@ -168,6 +168,16 @@ object AxionFxController {
     fun setExciterBlend(percent: Int) = setParameter(0xE02, percent)
     fun setExciterFreq(hz: Int) = setParameter(0xE03, hz)
 
+    // Miku-Picked UI: Clarity and Dynamic System
+    fun setClarityEnabled(enabled: Boolean) = setParameter(0x1100, if (enabled) 1 else 0)
+    fun setClarityMode(mode: Int) = setParameter(0x1101, mode)
+    fun setClarityAmount(percent: Int) = setParameter(0x1102, percent)
+    fun setDynSysEnabled(enabled: Boolean) = setParameter(0x1200, if (enabled) 1 else 0)
+    fun setDynSysProfile(profile: Int) = setParameter(0x1201, profile)
+    fun setDynSysStrength(percent: Int) = setParameter(0x1202, percent)
+    fun setDynSysCustomBassHz(hz: Int) = setParameter(0x1203, hz)
+    fun setDynSysCustomLowMidHz(hz: Int) = setParameter(0x1204, hz)
+
     fun setFirEqEnabled(enabled: Boolean) = setParameter(0xF00, if (enabled) 1 else 0)
     fun setFirEqBandGain(band: Int, tenthsDb: Int) =
         setParameter(0xF01, (band shl 16) or (tenthsDb and 0xFFFF))

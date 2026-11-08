@@ -249,6 +249,16 @@ class AxionFxService : Service() {
         AxionFxController.setExciterFreq(prefs.getInt("exciter_freq", 3000))
         AxionFxController.setExciterEnabled(prefs.getBoolean("exciter_enabled", false))
 
+        AxionFxController.setClarityMode(prefs.getInt("clarity_mode", 0))
+        AxionFxController.setClarityAmount(prefs.getInt("clarity_amount", 50))
+        AxionFxController.setClarityEnabled(prefs.getBoolean("clarity_enabled", false))
+
+        AxionFxController.setDynSysCustomBassHz(prefs.getInt("dynsys_custom_bass_hz", 100))
+        AxionFxController.setDynSysCustomLowMidHz(prefs.getInt("dynsys_custom_lowmid_hz", 300))
+        AxionFxController.setDynSysProfile(prefs.getInt("dynsys_profile", 0))
+        AxionFxController.setDynSysStrength(prefs.getInt("dynsys_strength", 50))
+        AxionFxController.setDynSysEnabled(prefs.getBoolean("dynsys_enabled", false))
+
         for (i in 0..3) {
             AxionFxController.setMCompBandThreshold(i, prefs.getInt("mcomp_thresh_$i", -200))
             AxionFxController.setMCompBandRatio(i, prefs.getInt("mcomp_ratio_$i", 400))

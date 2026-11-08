@@ -55,6 +55,8 @@ void AxionFxEngine::configure(float sampleRate) {
     mLimiter.configure(sampleRate);
     mMultibandComp.configure(sampleRate);
     mExciter.configure(sampleRate);
+    mClarity.configure(sampleRate);
+    mDynamicSystem.configure(sampleRate);
     mFirEq.configure(sampleRate);
     mSteamSpatial.configure(sampleRate);
 }
@@ -80,7 +82,9 @@ void AxionFxEngine::process(float* in, float* out, int samples) {
     mFirEq.process(out, frames);
     mEqualizer.process(out, frames);
     mBassBoost.process(out, frames);
+    mDynamicSystem.process(out, frames);
     mExciter.process(out, frames);
+    mClarity.process(out, frames);
     mTubeSimulator.process(out, frames);
     mCompressor.process(out, frames);
     mMultibandComp.process(out, frames);
@@ -310,6 +314,30 @@ void AxionFxEngine::setParameter(int32_t paramId, int32_t value) {
             break;
         }
 
+        case PARAM_CLARITY_ENABLE:
+            mClarity.setEnabled(value != 0);
+            break;
+        case PARAM_CLARITY_MODE:
+            mClarity.setMode(value);
+            break;
+        case PARAM_CLARITY_AMOUNT:
+            mClarity.setAmount(static_cast<float>(value));
+            break;
+        case PARAM_DYNSYS_ENABLE:
+            mDynamicSystem.setEnabled(value != 0);
+            break;
+        case PARAM_DYNSYS_PROFILE:
+            mDynamicSystem.setProfile(value);
+            break;
+        case PARAM_DYNSYS_STRENGTH:
+            mDynamicSystem.setStrength(static_cast<float>(value));
+            break;
+        case PARAM_DYNSYS_CUSTOM_BASS_HZ:
+            mDynamicSystem.setCustomBassHz(static_cast<float>(value));
+            break;
+        case PARAM_DYNSYS_CUSTOM_LOWMID_HZ:
+            mDynamicSystem.setCustomLowMidHz(static_cast<float>(value));
+            break;
         case PARAM_EXCITER_ENABLE:
             mExciter.setEnabled(value != 0);
             break;
@@ -410,6 +438,10 @@ int32_t AxionFxEngine::getParameter(int32_t paramId) const {
             return mMultibandComp.isEnabled() ? 1 : 0;
         case PARAM_EXCITER_ENABLE:
             return mExciter.isEnabled() ? 1 : 0;
+        case PARAM_CLARITY_ENABLE:
+            return mClarity.isEnabled() ? 1 : 0;
+        case PARAM_DYNSYS_ENABLE:
+            return mDynamicSystem.isEnabled() ? 1 : 0;
         case PARAM_FIR_EQ_ENABLE:
             return mFirEq.isEnabled() ? 1 : 0;
         case PARAM_SPATIAL_ENABLE:

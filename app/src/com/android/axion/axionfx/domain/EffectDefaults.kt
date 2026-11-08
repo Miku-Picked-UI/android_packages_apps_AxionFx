@@ -60,6 +60,14 @@ object EffectDefaults {
     const val EXCITER_DRIVE = 50
     const val EXCITER_BLEND = 30
     const val EXCITER_FREQ = 3000
+    const val CLARITY_ENABLED = false
+    const val CLARITY_MODE = 0
+    const val CLARITY_AMOUNT = 50
+    const val DYNSYS_ENABLED = false
+    const val DYNSYS_PROFILE = 0
+    const val DYNSYS_STRENGTH = 50
+    const val DYNSYS_CUSTOM_BASS_HZ = 100
+    const val DYNSYS_CUSTOM_LOWMID_HZ = 300
 
     const val MCOMP_ENABLED = false
     const val MCOMP_THRESHOLD = -200

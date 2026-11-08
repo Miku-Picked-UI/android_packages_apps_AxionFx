@@ -35,6 +35,8 @@ filegroup {
         "effects/Convolver.cpp",
         "effects/MultibandCompressor.cpp",
         "effects/Exciter.cpp",
+        "effects/Clarity.cpp",
+        "effects/DynamicSystem.cpp",
         "effects/FirEqualizer.cpp",
         "effects/SteamSpatial.cpp",
         "dsp/Biquad.cpp",

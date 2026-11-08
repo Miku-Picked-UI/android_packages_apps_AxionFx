@@ -135,6 +135,8 @@ fun DashboardScreen(
     var multiBandCompressorEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.MCOMP_ENABLED, EffectDefaults.MCOMP_ENABLED)) }
     var convolverEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.CONVOLVER_ENABLED, EffectDefaults.CONVOLVER_ENABLED)) }
     var exciterEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.EXCITER_ENABLED, EffectDefaults.EXCITER_ENABLED)) }
+    var clarityEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.CLARITY_ENABLED, EffectDefaults.CLARITY_ENABLED)) }
+    var dynSysEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.DYNSYS_ENABLED, EffectDefaults.DYNSYS_ENABLED)) }
 
     val activeCount by viewModel.activeEffectCount.collectAsState()
     val isActive = masterEnabled
@@ -864,6 +866,30 @@ fun DashboardScreen(
                             viewModel.interactor.setExciterEnabled(it)
                         },
                         onClick = { onNavigate("exciter") },
+                    )
+                }
+                item {
+                    PrimarySwitchPreference(
+                        title = stringResource(R.string.clarity_nav_title),
+                        summary = stringResource(R.string.clarity_nav_summary),
+                        checked = clarityEnabled,
+                        onCheckedChange = {
+                            clarityEnabled = it
+                            viewModel.interactor.setClarityEnabled(it)
+                        },
+                        onClick = { onNavigate("clarity") },
+                    )
+                }
+                item {
+                    PrimarySwitchPreference(
+                        title = stringResource(R.string.dynsys_nav_title),
+                        summary = stringResource(R.string.dynsys_nav_summary),
+                        checked = dynSysEnabled,
+                        onCheckedChange = {
+                            dynSysEnabled = it
+                            viewModel.interactor.setDynSysEnabled(it)
+                        },
+                        onClick = { onNavigate("dynamic_system") },
                     )
                 }
             }

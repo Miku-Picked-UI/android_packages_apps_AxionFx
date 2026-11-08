@@ -30,6 +30,8 @@
 #include "effects/TubeSimulator.h"
 #include "effects/MultibandCompressor.h"
 #include "effects/Exciter.h"
+#include "effects/Clarity.h"
+#include "effects/DynamicSystem.h"
 #include "effects/FirEqualizer.h"
 #include "effects/SteamSpatial.h"
 #include <atomic>
@@ -73,6 +75,8 @@ private:
     Limiter mLimiter;
     MultibandCompressor mMultibandComp;
     Exciter mExciter;
+    Clarity mClarity;
+    DynamicSystem mDynamicSystem;
     FirEqualizer mFirEq;
     SteamSpatial mSteamSpatial;
 };

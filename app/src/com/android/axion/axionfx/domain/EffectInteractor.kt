@@ -180,6 +180,46 @@ class EffectInteractor(private val repo: EffectRepository) {
         AxionFxController.setTubeMix(value)
     }
 
+    fun setClarityEnabled(enabled: Boolean) {
+        repo.putBoolean(EffectKeys.CLARITY_ENABLED, enabled)
+        AxionFxController.setClarityEnabled(enabled)
+    }
+
+    fun setClarityMode(value: Int) {
+        repo.putInt(EffectKeys.CLARITY_MODE, value)
+        AxionFxController.setClarityMode(value)
+    }
+
+    fun setClarityAmount(value: Int) {
+        repo.putInt(EffectKeys.CLARITY_AMOUNT, value)
+        AxionFxController.setClarityAmount(value)
+    }
+
+    fun setDynSysEnabled(enabled: Boolean) {
+        repo.putBoolean(EffectKeys.DYNSYS_ENABLED, enabled)
+        AxionFxController.setDynSysEnabled(enabled)
+    }
+
+    fun setDynSysProfile(value: Int) {
+        repo.putInt(EffectKeys.DYNSYS_PROFILE, value)
+        AxionFxController.setDynSysProfile(value)
+    }
+
+    fun setDynSysStrength(value: Int) {
+        repo.putInt(EffectKeys.DYNSYS_STRENGTH, value)
+        AxionFxController.setDynSysStrength(value)
+    }
+
+    fun setDynSysCustomBassHz(value: Int) {
+        repo.putInt(EffectKeys.DYNSYS_CUSTOM_BASS_HZ, value)
+        AxionFxController.setDynSysCustomBassHz(value)
+    }
+
+    fun setDynSysCustomLowMidHz(value: Int) {
+        repo.putInt(EffectKeys.DYNSYS_CUSTOM_LOWMID_HZ, value)
+        AxionFxController.setDynSysCustomLowMidHz(value)
+    }
+
     fun setExciterEnabled(enabled: Boolean) {
         repo.putBoolean(EffectKeys.EXCITER_ENABLED, enabled)
         AxionFxController.setExciterEnabled(enabled)
@@ -287,6 +327,14 @@ class EffectInteractor(private val repo: EffectRepository) {
         setExciterDrive(EffectDefaults.EXCITER_DRIVE)
         setExciterBlend(EffectDefaults.EXCITER_BLEND)
         setExciterFreq(EffectDefaults.EXCITER_FREQ)
+        setClarityEnabled(EffectDefaults.CLARITY_ENABLED)
+        setClarityMode(EffectDefaults.CLARITY_MODE)
+        setClarityAmount(EffectDefaults.CLARITY_AMOUNT)
+        setDynSysEnabled(EffectDefaults.DYNSYS_ENABLED)
+        setDynSysProfile(EffectDefaults.DYNSYS_PROFILE)
+        setDynSysStrength(EffectDefaults.DYNSYS_STRENGTH)
+        setDynSysCustomBassHz(EffectDefaults.DYNSYS_CUSTOM_BASS_HZ)
+        setDynSysCustomLowMidHz(EffectDefaults.DYNSYS_CUSTOM_LOWMID_HZ)
 
         // Spatial
         setCrossfeedEnabled(EffectDefaults.CROSSFEED_ENABLED)

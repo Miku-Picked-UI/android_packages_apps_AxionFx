@@ -286,4 +286,47 @@
     <string name="device_profiles_auto_switch_title">Auto-switch profiles</string>
     <string name="device_profiles_auto_switch_summary">Apply a bound preset automatically when the audio output changes</string>
     <string name="dashboard_device_chip_unbound">No preset bound</string>
+
+    <!-- Miku-Picked UI: Clarity -->
+    <string name="clarity_nav_title">Clarity</string>
+    <string name="clarity_nav_summary">Treble detail: Natural, OZone+ or XHiFi</string>
+    <string name="clarity_screen_title">Clarity</string>
+    <string name="clarity_category">Clarity</string>
+    <string name="clarity_enable_title">Enable Clarity</string>
+    <string name="clarity_enable_summary">Bring back detail in the high frequencies</string>
+    <string name="clarity_mode_title">Clarity mode</string>
+    <string name="clarity_amount_title">Clarity strength</string>
+    <string name="clarity_amount_summary">How much treble detail is added</string>
+    <string-array name="clarity_mode_entries">
+        <item>Natural</item>
+        <item>OZone+</item>
+        <item>XHiFi</item>
+    </string-array>
+
+    <!-- Miku-Picked UI: Dynamic System -->
+    <string name="dynsys_nav_title">Dynamic System</string>
+    <string name="dynsys_nav_summary">Dynamic bass tuned to your listening device</string>
+    <string name="dynsys_screen_title">Dynamic System</string>
+    <string name="dynsys_category">Dynamic System</string>
+    <string name="dynsys_enable_title">Enable Dynamic System</string>
+    <string name="dynsys_enable_summary">Fuller bass that stays clean at high volume</string>
+    <string name="dynsys_device_title">Listening device</string>
+    <string name="dynsys_strength_title">Dynamic bass</string>
+    <string name="dynsys_strength_summary">Strength of the dynamic bass</string>
+    <string name="dynsys_custom_category">Custom device</string>
+    <string name="dynsys_custom_bass_title">Bass frequency</string>
+    <string name="dynsys_custom_bass_summary">Upper edge of the bass that is enhanced (listening device: Custom)</string>
+    <string name="dynsys_custom_lowmid_title">Low-mid frequency</string>
+    <string name="dynsys_custom_lowmid_summary">Where the low mids are tightened (listening device: Custom)</string>
+    <!-- Order must match DynamicSystem.cpp kProfiles; Custom must stay last. -->
+    <string-array name="dynsys_device_entries">
+        <item>Earbuds</item>
+        <item>In-ear monitors</item>
+        <item>ANC true wireless earbuds</item>
+        <item>Over-ear headphones</item>
+        <item>Open-back headphones</item>
+        <item>Phone speaker</item>
+        <item>External speaker</item>
+        <item>Custom</item>
+    </string-array>
 </resources>

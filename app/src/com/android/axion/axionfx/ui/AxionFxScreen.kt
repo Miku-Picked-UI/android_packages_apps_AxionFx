@@ -45,6 +45,8 @@ import com.android.axion.axionfx.ui.screens.ConvolverScreen
 import com.android.axion.axionfx.ui.screens.DashboardScreen
 import com.android.axion.axionfx.ui.screens.DeviceProfilesScreen
 import com.android.axion.axionfx.ui.screens.EqualizerScreen
+import com.android.axion.axionfx.ui.screens.ClarityScreen
+import com.android.axion.axionfx.ui.screens.DynamicSystemScreen
 import com.android.axion.axionfx.ui.screens.ExciterScreen
 import com.android.axion.axionfx.ui.screens.FirEqScreen
 import com.android.axion.axionfx.ui.screens.MultibandScreen
@@ -130,6 +132,8 @@ private fun DetailContent(
         "fir_eq" -> FirEqScreen(viewModel = viewModel, onBackClick = onBack)
         "multiband" -> MultibandScreen(viewModel = viewModel, onBackClick = onBack)
         "exciter" -> ExciterScreen(viewModel = viewModel, onBackClick = onBack)
+        "clarity" -> ClarityScreen(viewModel = viewModel, onBackClick = onBack)
+        "dynamic_system" -> DynamicSystemScreen(viewModel = viewModel, onBackClick = onBack)
         "convolver" -> ConvolverScreen(viewModel = viewModel, onBackClick = onBack)
         "presets" -> PresetsScreen(viewModel = viewModel, onBackClick = onBack)
         "device_profiles" -> DeviceProfilesScreen(viewModel = viewModel, onBackClick = onBack)
