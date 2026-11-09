@@ -31,20 +31,26 @@ public:
 
 private:
     void updateFilters();
+    void updateShelves(float gainDb);
+    float bassHz() const;
 
     bool mEnabled = false;
     float mSampleRate = 48000.0f;
     int mProfile = 0;
     float mStrength = 0.5f;  // 0..1
-    float mGain = 1.0f;      // smoothed linear bass gain
+    float mGainDb = 0.0f;    // smoothed bass boost in dB
+    float mShelfDb = -1.0f;  // boost the shelves are currently set to
     float mCustomBassHz = 100.0f;
     float mCustomLowMidHz = 300.0f;
 
-    Biquad mLow1[2];
+    Biquad mLow1[2];   // side chain: measures the bass level
     Biquad mLow2[2];
+    Biquad mShelf[2];  // the bass boost itself (minimum phase, so it never cancels)
     Biquad mLowMidCut[2];
     EnvelopeFollower mEnvelope;
-    float mGainSmoothing = 0.001f;
+    float mGainSmoothing = 0.001f;  // per block of kBlock frames
+    int mBlockPos = 0;
+    static constexpr int kBlock = 32;
 };
 
 }  // namespace axionfx

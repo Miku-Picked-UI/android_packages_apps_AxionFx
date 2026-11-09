@@ -33,31 +33,49 @@ constexpr Profile kProfiles[DynamicSystem::kProfileCount] = {
     {100.0f, 300.0f, 8.0f},
     {100.0f, 300.0f, 10.0f},
 };
-constexpr float kQuietLevel = 0.02f;  // bass envelope where the full boost applies
-constexpr float kLoudLevel = 0.30f;   // bass envelope where the boost has faded out
+// The boosted bass band may reach this peak level; above it the boost is pulled back so
+// the bass does not clip or swamp the rest of the mix. Below it the full boost applies.
+constexpr float kBassHeadroom = 0.6f;
+
+// Boost in dB for a profile at the given strength (0..1). Even low strengths give an
+// audible lift; 100 % gives the profile's full boost.
+float boostDb(float maxBoostDb, float strength) {
+    return strength <= 0.0f ? 0.0f : maxBoostDb * (0.4f + 0.6f * strength);
+}
 }  // namespace
 
 void DynamicSystem::configure(float sampleRate) {
     mSampleRate = sampleRate;
     mEnvelope.configure(sampleRate, 10.0f, 180.0f);
-    mGainSmoothing = 1.0f - std::exp(-1.0f / (0.02f * sampleRate));  // ~20 ms
+    // ~30 ms smoothing, applied once per block of kBlock frames
+    mGainSmoothing = 1.0f - std::exp(-static_cast<float>(kBlock) / (0.03f * sampleRate));
     updateFilters();
 }
 
+float DynamicSystem::bassHz() const {
+    float hz = mProfile == kCustomProfile ? mCustomBassHz : kProfiles[mProfile].bassHz;
+    return std::min(hz, mSampleRate * 0.45f);
+}
+
 void DynamicSystem::updateFilters() {
-    Profile p = kProfiles[mProfile];
-    if (mProfile == kCustomProfile) {
-        p.bassHz = mCustomBassHz;
-        p.lowMidHz = mCustomLowMidHz;
-    }
-    const float nyq = mSampleRate * 0.45f;
-    p.bassHz = std::min(p.bassHz, nyq);
-    p.lowMidHz = std::min(p.lowMidHz, nyq);
+    float lowMidHz = mProfile == kCustomProfile ? mCustomLowMidHz : kProfiles[mProfile].lowMidHz;
+    lowMidHz = std::min(lowMidHz, mSampleRate * 0.45f);
+    const float bass = bassHz();
     for (int c = 0; c < 2; ++c) {
-        mLow1[c].configure(BiquadType::LOWPASS, mSampleRate, p.bassHz, 0.0f, 0.707f);
-        mLow2[c].configure(BiquadType::LOWPASS, mSampleRate, p.bassHz, 0.0f, 0.707f);
-        mLowMidCut[c].configure(BiquadType::PEAKING, mSampleRate, p.lowMidHz,
-                                -2.5f * mStrength, 1.0f);
+        mLow1[c].configure(BiquadType::LOWPASS, mSampleRate, bass, 0.0f, 0.707f);
+        mLow2[c].configure(BiquadType::LOWPASS, mSampleRate, bass, 0.0f, 0.707f);
+        mLowMidCut[c].configure(BiquadType::PEAKING, mSampleRate, lowMidHz,
+                                -4.0f * mStrength, 0.9f);
+    }
+    mShelfDb = -1.0f;  // force the shelves to be recomputed for the new frequency
+    updateShelves(mGainDb);
+}
+
+void DynamicSystem::updateShelves(float gainDb) {
+    if (std::fabs(gainDb - mShelfDb) < 0.05f) return;
+    mShelfDb = gainDb;
+    for (int c = 0; c < 2; ++c) {
+        mShelf[c].configure(BiquadType::LOW_SHELF, mSampleRate, bassHz(), gainDb, 0.707f);
     }
 }
 
@@ -84,21 +102,30 @@ void DynamicSystem::setCustomLowMidHz(float hz) {
 void DynamicSystem::process(float* buffer, int frames) {
     if (!mEnabled || frames <= 0 || mStrength <= 0.0f) return;
 
-    const float maxBoostDb = kProfiles[mProfile].maxBoostDb * mStrength;
+    const float maxDb = boostDb(kProfiles[mProfile].maxBoostDb, mStrength);
+    const float maxGain = std::pow(10.0f, maxDb / 20.0f);
 
     for (int i = 0; i < frames; ++i) {
+        // Side chain: one envelope of the bass band for both channels keeps the stereo
+        // image stable.
         float lowL = mLow2[0].process(mLow1[0].process(buffer[i * 2]));
         float lowR = mLow2[1].process(mLow1[1].process(buffer[i * 2 + 1]));
-
-        // One envelope for both channels keeps the stereo image stable.
         float env = mEnvelope.process(std::max(std::fabs(lowL), std::fabs(lowR)));
-        float t = std::clamp((env - kQuietLevel) / (kLoudLevel - kQuietLevel), 0.0f, 1.0f);
-        float target = std::pow(10.0f, maxBoostDb * (1.0f - t) / 20.0f);
-        mGain += (target - mGain) * mGainSmoothing;
 
-        float extra = mGain - 1.0f;
-        buffer[i * 2] = mLowMidCut[0].process(buffer[i * 2] + lowL * extra);
-        buffer[i * 2 + 1] = mLowMidCut[1].process(buffer[i * 2 + 1] + lowR * extra);
+        if (++mBlockPos >= kBlock) {
+            mBlockPos = 0;
+            // The full boost applies until the boosted bass would pass the headroom level;
+            // then the boost follows the music down (the "dynamic" part), never below 0 dB.
+            float targetDb = maxDb;
+            if (env * maxGain > kBassHeadroom) {
+                targetDb = std::max(0.0f, 20.0f * std::log10(kBassHeadroom / std::max(env, 1e-6f)));
+            }
+            mGainDb += (targetDb - mGainDb) * mGainSmoothing;
+            updateShelves(mGainDb);
+        }
+
+        buffer[i * 2] = mLowMidCut[0].process(mShelf[0].process(buffer[i * 2]));
+        buffer[i * 2 + 1] = mLowMidCut[1].process(mShelf[1].process(buffer[i * 2 + 1]));
     }
 }
 
@@ -107,9 +134,13 @@ void DynamicSystem::reset() {
         mLow1[c].reset();
         mLow2[c].reset();
         mLowMidCut[c].reset();
+        mShelf[c].reset();
     }
     mEnvelope.reset();
-    mGain = 1.0f;
+    mGainDb = 0.0f;
+    mBlockPos = 0;
+    mShelfDb = -1.0f;
+    updateShelves(0.0f);
 }
 
 }  // namespace axionfx
