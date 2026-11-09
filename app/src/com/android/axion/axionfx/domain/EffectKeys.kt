@@ -72,6 +72,8 @@ object EffectKeys {
     const val DYNSYS_STRENGTH = "dynsys_strength"
     const val DYNSYS_CUSTOM_BASS_HZ = "dynsys_custom_bass_hz"
     const val DYNSYS_CUSTOM_LOWMID_HZ = "dynsys_custom_lowmid_hz"
+    const val SPKOPT_ENABLED = "spkopt_enabled"
+    const val SPKOPT_AMOUNT = "spkopt_amount"
 
     const val MCOMP_ENABLED = "mcomp_enabled"
     const val MCOMP_THRESH_PREFIX = "mcomp_thresh_"

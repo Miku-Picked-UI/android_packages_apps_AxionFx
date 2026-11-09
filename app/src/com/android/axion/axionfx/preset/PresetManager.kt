@@ -71,6 +71,8 @@ object PresetManager {
         EffectKeys.DYNSYS_STRENGTH,
         EffectKeys.DYNSYS_CUSTOM_BASS_HZ,
         EffectKeys.DYNSYS_CUSTOM_LOWMID_HZ,
+        EffectKeys.SPKOPT_ENABLED,
+        EffectKeys.SPKOPT_AMOUNT,
         EffectKeys.MCOMP_ENABLED,
         EffectKeys.CONVOLVER_ENABLED,
         EffectKeys.CONVOLVER_MIX,

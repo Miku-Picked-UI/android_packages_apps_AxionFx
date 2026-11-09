@@ -288,6 +288,14 @@
     <string name="dashboard_device_chip_unbound">No preset bound</string>
 
     <!-- Miku-Picked UI: Clarity -->
+    <string name="spkopt_nav_title">Speaker optimization</string>
+    <string name="spkopt_nav_summary">Cleaner, louder sound from the phone speaker</string>
+    <string name="spkopt_screen_title">Speaker optimization</string>
+    <string name="spkopt_category">Phone speaker</string>
+    <string name="spkopt_enable_title">Optimize the phone speaker</string>
+    <string name="spkopt_enable_summary">Removes bass the speaker cannot play, adds body and tames harshness. Only works while sound comes from the phone speaker</string>
+    <string name="spkopt_amount_title">Correction strength</string>
+    <string name="spkopt_amount_summary">How much body and smoothing is added</string>
     <string name="clarity_nav_title">Clarity</string>
     <string name="clarity_nav_summary">Treble detail: Natural, OZone+ or XHiFi</string>
     <string name="clarity_screen_title">Clarity</string>

@@ -175,6 +175,8 @@ class AxionFxService : Service() {
         val routed = DeviceCategory.routedOutput(this)
         _currentDeviceCategory.value = routed.category
         _currentDeviceName.value = routed.deviceName
+        // Miku-Picked UI: speaker optimization follows the output device
+        AxionFxController.setSpeakerOptSpeakerActive(routed.category == DeviceCategory.SPEAKER)
         if (!_autoSwitchEnabled.value) return
         if (routed.category == lastAppliedCategory) return
         val profile = DeviceProfile.Fixed(routed.category)
@@ -258,6 +260,11 @@ class AxionFxService : Service() {
         AxionFxController.setDynSysProfile(prefs.getInt("dynsys_profile", 0))
         AxionFxController.setDynSysStrength(prefs.getInt("dynsys_strength", 50))
         AxionFxController.setDynSysEnabled(prefs.getBoolean("dynsys_enabled", false))
+
+        AxionFxController.setSpeakerOptSpeakerActive(
+            DeviceCategory.routedOutput(this).category == DeviceCategory.SPEAKER)
+        AxionFxController.setSpeakerOptAmount(prefs.getInt("spkopt_amount", 60))
+        AxionFxController.setSpeakerOptEnabled(prefs.getBoolean("spkopt_enabled", false))
 
         for (i in 0..3) {
             AxionFxController.setMCompBandThreshold(i, prefs.getInt("mcomp_thresh_$i", -200))

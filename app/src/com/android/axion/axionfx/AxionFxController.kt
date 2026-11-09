@@ -178,6 +178,11 @@ object AxionFxController {
     fun setDynSysCustomBassHz(hz: Int) = setParameter(0x1203, hz)
     fun setDynSysCustomLowMidHz(hz: Int) = setParameter(0x1204, hz)
 
+    // Miku-Picked UI: Speaker optimization (only processes while the phone speaker plays)
+    fun setSpeakerOptEnabled(enabled: Boolean) = setParameter(0x1300, if (enabled) 1 else 0)
+    fun setSpeakerOptSpeakerActive(active: Boolean) = setParameter(0x1301, if (active) 1 else 0)
+    fun setSpeakerOptAmount(percent: Int) = setParameter(0x1302, percent)
+
     fun setFirEqEnabled(enabled: Boolean) = setParameter(0xF00, if (enabled) 1 else 0)
     fun setFirEqBandGain(band: Int, tenthsDb: Int) =
         setParameter(0xF01, (band shl 16) or (tenthsDb and 0xFFFF))

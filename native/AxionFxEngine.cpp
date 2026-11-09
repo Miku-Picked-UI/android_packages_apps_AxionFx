@@ -57,6 +57,7 @@ void AxionFxEngine::configure(float sampleRate) {
     mExciter.configure(sampleRate);
     mClarity.configure(sampleRate);
     mDynamicSystem.configure(sampleRate);
+    mSpeakerOptimizer.configure(sampleRate);
     mFirEq.configure(sampleRate);
     mSteamSpatial.configure(sampleRate);
 }
@@ -79,6 +80,7 @@ void AxionFxEngine::process(float* in, float* out, int samples) {
 
     int frames = samples / 2;
 
+    mSpeakerOptimizer.process(out, frames);
     mFirEq.process(out, frames);
     mEqualizer.process(out, frames);
     mBassBoost.process(out, frames);
@@ -338,6 +340,15 @@ void AxionFxEngine::setParameter(int32_t paramId, int32_t value) {
         case PARAM_DYNSYS_CUSTOM_LOWMID_HZ:
             mDynamicSystem.setCustomLowMidHz(static_cast<float>(value));
             break;
+        case PARAM_SPKOPT_ENABLE:
+            mSpeakerOptimizer.setEnabled(value != 0);
+            break;
+        case PARAM_SPKOPT_SPEAKER_ACTIVE:
+            mSpeakerOptimizer.setSpeakerActive(value != 0);
+            break;
+        case PARAM_SPKOPT_AMOUNT:
+            mSpeakerOptimizer.setAmount(static_cast<float>(value));
+            break;
         case PARAM_EXCITER_ENABLE:
             mExciter.setEnabled(value != 0);
             break;
@@ -442,6 +453,8 @@ int32_t AxionFxEngine::getParameter(int32_t paramId) const {
             return mClarity.isEnabled() ? 1 : 0;
         case PARAM_DYNSYS_ENABLE:
             return mDynamicSystem.isEnabled() ? 1 : 0;
+        case PARAM_SPKOPT_ENABLE:
+            return mSpeakerOptimizer.isEnabled() ? 1 : 0;
         case PARAM_FIR_EQ_ENABLE:
             return mFirEq.isEnabled() ? 1 : 0;
         case PARAM_SPATIAL_ENABLE:

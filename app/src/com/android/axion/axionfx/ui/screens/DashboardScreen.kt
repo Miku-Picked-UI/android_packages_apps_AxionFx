@@ -136,6 +136,7 @@ fun DashboardScreen(
     var convolverEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.CONVOLVER_ENABLED, EffectDefaults.CONVOLVER_ENABLED)) }
     var exciterEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.EXCITER_ENABLED, EffectDefaults.EXCITER_ENABLED)) }
     var clarityEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.CLARITY_ENABLED, EffectDefaults.CLARITY_ENABLED)) }
+    var spkOptEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.SPKOPT_ENABLED, EffectDefaults.SPKOPT_ENABLED)) }
     var dynSysEnabled by remember { mutableStateOf(viewModel.loadBoolean(EffectKeys.DYNSYS_ENABLED, EffectDefaults.DYNSYS_ENABLED)) }
 
     val activeCount by viewModel.activeEffectCount.collectAsState()
@@ -890,6 +891,18 @@ fun DashboardScreen(
                             viewModel.interactor.setDynSysEnabled(it)
                         },
                         onClick = { onNavigate("dynamic_system") },
+                    )
+                }
+                item {
+                    PrimarySwitchPreference(
+                        title = stringResource(R.string.spkopt_nav_title),
+                        summary = stringResource(R.string.spkopt_nav_summary),
+                        checked = spkOptEnabled,
+                        onCheckedChange = {
+                            spkOptEnabled = it
+                            viewModel.interactor.setSpeakerOptEnabled(it)
+                        },
+                        onClick = { onNavigate("speaker_opt") },
                     )
                 }
             }

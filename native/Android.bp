@@ -37,6 +37,7 @@ filegroup {
         "effects/Exciter.cpp",
         "effects/Clarity.cpp",
         "effects/DynamicSystem.cpp",
+        "effects/SpeakerOptimizer.cpp",
         "effects/FirEqualizer.cpp",
         "effects/SteamSpatial.cpp",
         "dsp/Biquad.cpp",

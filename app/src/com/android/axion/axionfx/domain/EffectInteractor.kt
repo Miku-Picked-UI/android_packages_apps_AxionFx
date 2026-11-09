@@ -220,6 +220,16 @@ class EffectInteractor(private val repo: EffectRepository) {
         AxionFxController.setDynSysCustomLowMidHz(value)
     }
 
+    fun setSpeakerOptEnabled(enabled: Boolean) {
+        repo.putBoolean(EffectKeys.SPKOPT_ENABLED, enabled)
+        AxionFxController.setSpeakerOptEnabled(enabled)
+    }
+
+    fun setSpeakerOptAmount(value: Int) {
+        repo.putInt(EffectKeys.SPKOPT_AMOUNT, value)
+        AxionFxController.setSpeakerOptAmount(value)
+    }
+
     fun setExciterEnabled(enabled: Boolean) {
         repo.putBoolean(EffectKeys.EXCITER_ENABLED, enabled)
         AxionFxController.setExciterEnabled(enabled)
@@ -335,6 +345,8 @@ class EffectInteractor(private val repo: EffectRepository) {
         setDynSysStrength(EffectDefaults.DYNSYS_STRENGTH)
         setDynSysCustomBassHz(EffectDefaults.DYNSYS_CUSTOM_BASS_HZ)
         setDynSysCustomLowMidHz(EffectDefaults.DYNSYS_CUSTOM_LOWMID_HZ)
+        setSpeakerOptEnabled(EffectDefaults.SPKOPT_ENABLED)
+        setSpeakerOptAmount(EffectDefaults.SPKOPT_AMOUNT)
 
         // Spatial
         setCrossfeedEnabled(EffectDefaults.CROSSFEED_ENABLED)

@@ -32,6 +32,7 @@
 #include "effects/Exciter.h"
 #include "effects/Clarity.h"
 #include "effects/DynamicSystem.h"
+#include "effects/SpeakerOptimizer.h"
 #include "effects/FirEqualizer.h"
 #include "effects/SteamSpatial.h"
 #include <atomic>
@@ -77,6 +78,7 @@ private:
     Exciter mExciter;
     Clarity mClarity;
     DynamicSystem mDynamicSystem;
+    SpeakerOptimizer mSpeakerOptimizer;
     FirEqualizer mFirEq;
     SteamSpatial mSteamSpatial;
 };
