@@ -74,6 +74,9 @@ cc_library_shared {
 
     local_include_dirs: ["."],
 
+    // ViPERFX_RE keeps unused parameters in its filter setters (as the legacy library allows).
+    cflags: ["-Wno-unused-parameter"],
+
     relative_install_path: "soundfx",
 
     visibility: [
