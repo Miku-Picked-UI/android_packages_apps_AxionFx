@@ -38,6 +38,13 @@ filegroup {
         "effects/Clarity.cpp",
         "effects/DynamicSystem.cpp",
         "effects/SpeakerOptimizer.cpp",
+        // ViPERFX_RE (Iscle / AndroidAudioMods): Dynamic System and speaker correction
+        "viper/Biquad.cpp",
+        "viper/MultiBiquad.cpp",
+        "viper/PolesFilter.cpp",
+        "viper/DynamicBass.cpp",
+        "viper/DynamicSystem.cpp",
+        "viper/SpeakerCorrection.cpp",
         "effects/FirEqualizer.cpp",
         "effects/SteamSpatial.cpp",
         "dsp/Biquad.cpp",

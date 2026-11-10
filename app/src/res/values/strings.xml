@@ -293,9 +293,9 @@
     <string name="spkopt_screen_title">Speaker optimization</string>
     <string name="spkopt_category">Phone speaker</string>
     <string name="spkopt_enable_title">Optimize the phone speaker</string>
-    <string name="spkopt_enable_summary">Removes bass the speaker cannot play, adds body and tames harshness. Only works while sound comes from the phone speaker</string>
+    <string name="spkopt_enable_summary">ViPER4Android speaker correction: removes bass the speaker cannot play and adds body around 400 Hz. Only works while sound comes from the phone speaker</string>
     <string name="spkopt_amount_title">Correction strength</string>
-    <string name="spkopt_amount_summary">How much body and smoothing is added</string>
+    <string name="spkopt_amount_summary">How much of the correction is mixed in (100 % is ViPER\'s correction exactly)</string>
     <string name="clarity_nav_title">Clarity</string>
     <string name="clarity_nav_summary">Treble detail: Natural, OZone+ or XHiFi</string>
     <string name="clarity_screen_title">Clarity</string>
@@ -317,7 +317,7 @@
     <string name="dynsys_screen_title">Dynamic System</string>
     <string name="dynsys_category">Dynamic System</string>
     <string name="dynsys_enable_title">Enable Dynamic System</string>
-    <string name="dynsys_enable_summary">Fuller bass that stays clean at high volume</string>
+    <string name="dynsys_enable_summary">ViPER4Android Dynamic System: fuller, tighter bass tuned to your listening device</string>
     <string name="dynsys_device_title">Listening device</string>
     <string name="dynsys_strength_title">Dynamic bass</string>
     <string name="dynsys_strength_summary">Strength of the dynamic bass</string>
