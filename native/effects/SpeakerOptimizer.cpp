@@ -23,10 +23,6 @@ void SpeakerOptimizer::setAmount(float percent) {
 
 void SpeakerOptimizer::process(float* buffer, int frames) {
     if (!mEnabled || !mSpeakerActive || frames <= 0 || mAmount <= 0.0f) return;
-    if (mAmount >= 1.0f) {
-        mViper.Process(buffer, static_cast<uint32_t>(frames));
-        return;
-    }
     float dry[kChunk * 2];
     const float wet = mAmount;
     for (int done = 0; done < frames; done += kChunk) {
@@ -34,7 +30,13 @@ void SpeakerOptimizer::process(float* buffer, int frames) {
         float* chunk = buffer + done * 2;
         std::memcpy(dry, chunk, sizeof(float) * n * 2);
         mViper.Process(chunk, static_cast<uint32_t>(n));
-        for (int i = 0; i < n * 2; ++i) chunk[i] = dry[i] + wet * (chunk[i] - dry[i]);
+        // ViPER's correction halves the level (about -5 dB in the mids); make that up so the
+        // speaker gets the correction's shape (no rumble below 80 Hz, fuller 420 Hz, softer
+        // top) at the same loudness instead of just sounding quieter.
+        for (int i = 0; i < n * 2; ++i) {
+            const float corrected = chunk[i] * kMakeupGain;
+            chunk[i] = dry[i] + wet * (corrected - dry[i]);
+        }
     }
 }
 

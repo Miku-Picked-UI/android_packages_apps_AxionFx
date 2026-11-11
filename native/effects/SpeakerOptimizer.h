@@ -11,8 +11,8 @@ namespace axionfx {
 
 /**
  * Speaker optimization: ViPER4Android's speaker correction (ViPERFX_RE by Iscle /
- * AndroidAudioMods, see ../viper) for the built-in phone speaker. The amount blends the
- * corrected signal with the original (100 % = ViPER's correction exactly).
+ * AndroidAudioMods, see ../viper) for the built-in phone speaker, with its level made up to
+ * the original's. The amount blends the corrected signal with the original.
  *
  * It only processes while the output is the phone speaker (setSpeakerActive).
  */
@@ -33,6 +33,7 @@ private:
 
     viper::SpeakerCorrection mViper;
     static constexpr int kChunk = 256;  // frames per pass (dry copy on the stack)
+    static constexpr float kMakeupGain = 1.7f;  // +4.6 dB, mids back to 0 dB (measured)
 };
 
 }  // namespace axionfx

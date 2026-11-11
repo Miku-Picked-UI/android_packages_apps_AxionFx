@@ -345,6 +345,7 @@ void AxionFxEngine::setParameter(int32_t paramId, int32_t value) {
             break;
         case PARAM_SPKOPT_SPEAKER_ACTIVE:
             mSpeakerOptimizer.setSpeakerActive(value != 0);
+            mDynamicSystem.setSpeakerActive(value != 0);
             break;
         case PARAM_SPKOPT_AMOUNT:
             mSpeakerOptimizer.setAmount(static_cast<float>(value));

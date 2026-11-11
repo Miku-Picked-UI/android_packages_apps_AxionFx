@@ -9,6 +9,7 @@
 #pragma once
 
 #include "../viper/DynamicSystem.h"
+#include "../viper/MultiBiquad.h"
 
 namespace axionfx {
 
@@ -19,6 +20,8 @@ public:
     void setEnabled(bool enabled) { mEnabled = enabled; }
     bool isEnabled() const { return mEnabled; }
     void setProfile(int profile);
+    /** While audio plays on the phone speaker the phone speaker profile is always used. */
+    void setSpeakerActive(bool active);
     void setStrength(float percent);
     void setCustomBassHz(float hz);
     void setCustomLowMidHz(float hz);
@@ -33,6 +36,11 @@ private:
     bool mEnabled = false;
     float mSampleRate = 48000.0f;
     int mProfile = 0;
+    bool mSpeakerActive = false;
+    bool mSubCut = false;               // phone speaker profile: high-pass after ViPER
+    viper::MultiBiquad mSubCutFilter[2];
+    static constexpr float kSubCutHz = 100.0f;
+    static constexpr int kSpeakerProfile = 5;
     float mStrength = 0.5f;  // 0..1
     float mCustomBassHz = 100.0f;
     float mCustomLowMidHz = 300.0f;
