@@ -301,7 +301,7 @@
     <string name="clarity_screen_title">Clarity</string>
     <string name="clarity_category">Clarity</string>
     <string name="clarity_enable_title">Enable Clarity</string>
-    <string name="clarity_enable_summary">Bring back detail in the high frequencies</string>
+    <string name="clarity_enable_summary">ViPER4Android Clarity: brings back detail in the high frequencies</string>
     <string name="clarity_mode_title">Clarity mode</string>
     <string name="clarity_amount_title">Clarity strength</string>
     <string name="clarity_amount_summary">How much treble detail is added</string>
