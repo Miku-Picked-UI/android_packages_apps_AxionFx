@@ -60,7 +60,8 @@ fun FirEqScreen(viewModel: AxionFxViewModel, onBackClick: () -> Unit) {
     var enabled by remember { mutableStateOf(viewModel.loadBoolean(KEY_FIR_EQ_ENABLED, false)) }
     val bandGains = remember {
         Array(15) {
-            mutableStateOf(viewModel.loadInt("$KEY_FIR_EQ_BAND_PREFIX$it", 0).toFloat())
+            // Stored in tenths of a dB (what the engine takes), shown in dB.
+            mutableStateOf(viewModel.loadInt("$KEY_FIR_EQ_BAND_PREFIX$it", 0) / 10f)
         }
     }
 
