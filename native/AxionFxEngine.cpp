@@ -106,6 +106,13 @@ void AxionFxEngine::process(float* in, float* out, int samples) {
         for (int f = 0; f < frames; ++f) {
             float l = out[f * 2] * gainL;
             float r = out[f * 2 + 1] * gainR;
+            // Miku-Picked UI: with the limiter on, leave the peaks to it (float headroom)
+            // rather than saturating them here first.
+            if (mLimiter.isEnabled()) {
+                out[f * 2] = l;
+                out[f * 2 + 1] = r;
+                continue;
+            }
             if (l > 1.0f) { float x = l - 1.0f; l = 1.0f - x / (x + 1.0f); }
             else if (l < -1.0f) { float x = -l - 1.0f; l = -(1.0f - x / (x + 1.0f)); }
             if (r > 1.0f) { float x = r - 1.0f; r = 1.0f - x / (x + 1.0f); }

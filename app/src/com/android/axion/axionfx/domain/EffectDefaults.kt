@@ -46,7 +46,8 @@ object EffectDefaults {
     const val COMPRESSOR_ENABLED = false
     const val AGC_ENABLED = false
     const val LIMITER_ENABLED = true
-    const val LIMITER_THRESHOLD = -10
+    // Miku-Picked UI: a safety limiter just under full scale; -10 dB limited most music hard.
+    const val LIMITER_THRESHOLD = -1
 
     const val REVERB_ENABLED = false
     const val REVERB_ROOM = 50

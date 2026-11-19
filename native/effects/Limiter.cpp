@@ -27,6 +27,9 @@ void Limiter::configure(float sampleRate) {
     mLookaheadSamples = std::min(static_cast<int>(sampleRate * LOOKAHEAD_MS / 1000.0f),
                                   MAX_LOOKAHEAD_SAMPLES);
     if (mLookaheadSamples < 1) mLookaheadSamples = 1;
+    // Miku-Picked UI: reach a new peak's gain smoothly within the lookahead (about 98 % after
+    // four time constants) instead of jumping to it in one sample.
+    mAttackCoeff = std::exp(-4.0f / static_cast<float>(mLookaheadSamples));
 
     if (mReleaseMs > 0.0f) {
         mReleaseCoeff = std::exp(-1.0f / (sampleRate * mReleaseMs / 1000.0f));
@@ -63,14 +66,28 @@ void Limiter::process(float* buffer, int frames) {
             targetGain = mThreshold / peak;
         }
 
-        if (targetGain < mGain) {
-            mGain = targetGain;
+        // Miku-Picked UI: hold a peak's gain until that peak has left the lookahead delay, ramp
+        // down to it smoothly (attack) and recover slowly (release). Before, the gain jumped
+        // down in one sample and released after 50 ms, which distorted and pumped the bass.
+        if (targetGain <= mHeldTarget) {
+            mHeldTarget = targetGain;
+            mHoldLeft = mLookaheadSamples;
+        } else if (mHoldLeft > 0) {
+            mHoldLeft--;
         } else {
-            mGain = mReleaseCoeff * mGain + (1.0f - mReleaseCoeff) * targetGain;
+            mHeldTarget = targetGain;
+        }
+        if (mHeldTarget < mGain) {
+            mGain = mAttackCoeff * mGain + (1.0f - mAttackCoeff) * mHeldTarget;
+        } else {
+            mGain = mReleaseCoeff * mGain + (1.0f - mReleaseCoeff) * mHeldTarget;
         }
 
         float outL = mDelayL[mDelayPos] * mGain;
         float outR = mDelayR[mDelayPos] * mGain;
+        // The smooth attack can leave a sliver of a sudden peak over the threshold.
+        outL = std::clamp(outL, -mThreshold, mThreshold);
+        outR = std::clamp(outR, -mThreshold, mThreshold);
 
         mDelayL[mDelayPos] = inL;
         mDelayR[mDelayPos] = inR;
@@ -90,6 +107,8 @@ void Limiter::reset() {
     std::memset(mDelayR, 0, sizeof(mDelayR));
     mDelayPos = 0;
     mGain = 1.0f;
+    mHeldTarget = 1.0f;
+    mHoldLeft = 0;
 }
 
 }  // namespace axionfx

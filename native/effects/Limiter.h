@@ -24,7 +24,8 @@ class Limiter {
 public:
     static constexpr int MAX_LOOKAHEAD_SAMPLES = 960;
     static constexpr float DEFAULT_THRESHOLD_DB = -0.1f;
-    static constexpr float DEFAULT_RELEASE_MS = 50.0f;
+    // Miku-Picked UI: 50 ms pumped on every kick drum and modulated the bass (mushy).
+    static constexpr float DEFAULT_RELEASE_MS = 200.0f;
     static constexpr float LOOKAHEAD_MS = 5.0f;
 
     void configure(float sampleRate);
@@ -41,6 +42,7 @@ private:
     float mThreshold = 0.989f;
     float mReleaseMs = DEFAULT_RELEASE_MS;
     float mReleaseCoeff = 0.0f;
+    float mAttackCoeff = 0.0f;
 
     int mLookaheadSamples = 240;
     float mDelayL[MAX_LOOKAHEAD_SAMPLES] = {};
@@ -48,6 +50,8 @@ private:
     int mDelayPos = 0;
 
     float mGain = 1.0f;
+    float mHeldTarget = 1.0f;
+    int mHoldLeft = 0;
 };
 
 }  // namespace axionfx
