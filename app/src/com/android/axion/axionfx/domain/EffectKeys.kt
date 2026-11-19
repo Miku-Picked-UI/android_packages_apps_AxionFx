@@ -29,6 +29,11 @@ object EffectKeys {
     const val FIR_EQ_ENABLED = "fir_eq_enabled"
     const val FIR_EQ_BAND_PREFIX = "fir_eq_band_"
 
+    // Miku-Picked UI: the 9-band Equalizer app. Bands in tenths of a dB.
+    const val SOUND_EQ_PRESET = "sound_eq_preset"
+    const val SOUND_EQ_BAND_PREFIX = "sound_eq_band_"
+    const val SOUND_EQ_CUSTOM_PREFIX = "sound_eq_custom_"
+
     const val BASS_ENABLED = "bass_enabled"
     const val BASS_MODE = "bass_mode"
     const val BASS_GAIN = "bass_gain"

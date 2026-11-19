@@ -57,6 +57,22 @@
             </intent-filter>
         </activity>
 
+        <!-- Miku-Picked UI: "Equalizer", the 9-band equalizer as a launcher app of its own -->
+        <activity
+            android:name=".SoundEqualizerActivity"
+            android:label="@string/sound_eq_app_name"
+            android:icon="@mipmap/ic_sound_eq"
+            android:roundIcon="@mipmap/ic_sound_eq"
+            android:taskAffinity="com.android.axion.axionfx.equalizer"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name=".service.BootReceiver"
             android:directBootAware="true"

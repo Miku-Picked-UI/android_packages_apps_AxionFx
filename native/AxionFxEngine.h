@@ -34,6 +34,7 @@
 #include "effects/DynamicSystem.h"
 #include "effects/SpeakerOptimizer.h"
 #include "effects/FirEqualizer.h"
+#include "effects/SoundEqualizer.h"
 #include "effects/SteamSpatial.h"
 #include <atomic>
 
@@ -80,6 +81,7 @@ private:
     DynamicSystem mDynamicSystem;
     SpeakerOptimizer mSpeakerOptimizer;
     FirEqualizer mFirEq;
+    SoundEqualizer mSoundEq;
     SteamSpatial mSteamSpatial;
 };
 

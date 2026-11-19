@@ -16,4 +16,6 @@
 -->
 <resources>
     <color name="ic_launcher_background">#FFFFFF</color>
+    <!-- Miku-Picked UI: the Equalizer app -->
+    <color name="ic_sound_eq_background">#2F6FE8</color>
 </resources>

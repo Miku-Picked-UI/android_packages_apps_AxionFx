@@ -187,6 +187,11 @@ object AxionFxController {
     fun setFirEqBandGain(band: Int, tenthsDb: Int) =
         setParameter(0xF01, (band shl 16) or (tenthsDb and 0xFFFF))
 
+    // Miku-Picked UI: the 9-band Equalizer app
+    fun setSoundEqEnabled(enabled: Boolean) = setParameter(0x1400, if (enabled) 1 else 0)
+    fun setSoundEqBandGain(band: Int, tenthsDb: Int) =
+        setParameter(0x1401, (band shl 16) or (tenthsDb and 0xFFFF))
+
     fun setSpatialEnabled(enabled: Boolean) = setParameter(0x1000, if (enabled) 1 else 0)
     fun setSpatialWidth(percent: Int) = setParameter(0x1001, percent)
     fun setSpatialBlend(percent: Int) = setParameter(0x1003, percent)

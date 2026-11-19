@@ -59,6 +59,7 @@ void AxionFxEngine::configure(float sampleRate) {
     mDynamicSystem.configure(sampleRate);
     mSpeakerOptimizer.configure(sampleRate);
     mFirEq.configure(sampleRate);
+    mSoundEq.configure(sampleRate);
     mSteamSpatial.configure(sampleRate);
 }
 
@@ -82,6 +83,7 @@ void AxionFxEngine::process(float* in, float* out, int samples) {
 
     mSpeakerOptimizer.process(out, frames);
     mFirEq.process(out, frames);
+    mSoundEq.process(out, frames);
     mEqualizer.process(out, frames);
     mBassBoost.process(out, frames);
     mDynamicSystem.process(out, frames);
@@ -373,6 +375,16 @@ void AxionFxEngine::setParameter(int32_t paramId, int32_t value) {
             break;
         }
 
+        case PARAM_SOUND_EQ_ENABLE:
+            mSoundEq.setEnabled(value != 0);
+            break;
+        case PARAM_SOUND_EQ_BAND_GAIN: {
+            int band = (value >> 16) & 0xFF;
+            float dB = static_cast<float>(static_cast<int16_t>(value & 0xFFFF)) / 10.0f;
+            mSoundEq.setBandGain(band, dB);
+            break;
+        }
+
         case PARAM_SPATIAL_ENABLE:
             mSteamSpatial.setEnabled(value != 0);
             break;
@@ -458,6 +470,8 @@ int32_t AxionFxEngine::getParameter(int32_t paramId) const {
             return mSpeakerOptimizer.isEnabled() ? 1 : 0;
         case PARAM_FIR_EQ_ENABLE:
             return mFirEq.isEnabled() ? 1 : 0;
+        case PARAM_SOUND_EQ_ENABLE:
+            return mSoundEq.isEnabled() ? 1 : 0;
         case PARAM_SPATIAL_ENABLE:
             return mSteamSpatial.isEnabled() ? 1 : 0;
         case PARAM_PROCESS_CALL_COUNT:

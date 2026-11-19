@@ -65,6 +65,25 @@ class EffectInteractor(private val repo: EffectRepository) {
         AxionFxController.setFirEqBandGain(band, value)
     }
 
+    /** Miku-Picked UI: the Equalizer app. [tenthsDb] has one gain per band. */
+    fun setSoundEq(preset: Int, tenthsDb: IntArray) {
+        val editor = repo.prefs.edit().putInt(EffectKeys.SOUND_EQ_PRESET, preset)
+        tenthsDb.forEachIndexed { band, value ->
+            editor.putInt("${EffectKeys.SOUND_EQ_BAND_PREFIX}$band", value)
+            AxionFxController.setSoundEqBandGain(band, value)
+        }
+        editor.apply()
+        AxionFxController.setSoundEqEnabled(tenthsDb.any { it != 0 })
+    }
+
+    fun setSoundEqCustom(tenthsDb: IntArray) {
+        val editor = repo.prefs.edit()
+        tenthsDb.forEachIndexed { band, value ->
+            editor.putInt("${EffectKeys.SOUND_EQ_CUSTOM_PREFIX}$band", value)
+        }
+        editor.apply()
+    }
+
     fun setBassEnabled(enabled: Boolean) {
         repo.putBoolean(EffectKeys.BASS_ENABLED, enabled)
         AxionFxController.setBassEnabled(enabled)
@@ -310,6 +329,7 @@ class EffectInteractor(private val repo: EffectRepository) {
         for (i in 0..127) {
             setFirEqBandGain(i, 0)
         }
+        setSoundEq(SoundEq.BALANCED, IntArray(SoundEq.BANDS))
 
         // Bass & Widener
         setBassEnabled(EffectDefaults.BASS_ENABLED)

@@ -278,6 +278,15 @@ class AxionFxService : Service() {
         }
         AxionFxController.setFirEqEnabled(prefs.getBoolean("fir_eq_enabled", false))
 
+        // Miku-Picked UI: the Equalizer app
+        var soundEqOn = false
+        for (i in 0 until com.android.axion.axionfx.domain.SoundEq.BANDS) {
+            val gain = prefs.getInt("sound_eq_band_$i", 0)
+            AxionFxController.setSoundEqBandGain(i, gain)
+            if (gain != 0) soundEqOn = true
+        }
+        AxionFxController.setSoundEqEnabled(soundEqOn)
+
         AxionFxController.setParameter(0xC01, prefs.getInt("convolver_mix", 100))
         prefs.getString("convolver_ir_path", null)?.let { path ->
             try {

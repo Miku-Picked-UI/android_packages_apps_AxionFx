@@ -118,6 +118,9 @@ enum ParamId : int32_t {
     PARAM_SPKOPT_ENABLE = 0x1300,
     PARAM_SPKOPT_SPEAKER_ACTIVE = 0x1301,
     PARAM_SPKOPT_AMOUNT = 0x1302,
+    // Miku-Picked UI: the 9-band Equalizer app (band << 16 | tenths of a dB)
+    PARAM_SOUND_EQ_ENABLE = 0x1400,
+    PARAM_SOUND_EQ_BAND_GAIN = 0x1401,
 };
 
 static constexpr int32_t PARAM_GROUP_MASK = 0xFF00;

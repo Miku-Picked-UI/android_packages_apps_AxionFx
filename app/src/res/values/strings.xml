@@ -337,4 +337,23 @@
         <item>External speaker</item>
         <item>Custom</item>
     </string-array>
+    <!-- Miku-Picked UI: the 9-band Equalizer app -->
+    <string name="sound_eq_app_name">Equalizer</string>
+    <string name="sound_eq_balanced">Balanced</string>
+    <string name="sound_eq_balanced_summary">Every frequency as it was recorded.</string>
+    <string name="sound_eq_bass_boost">Bass boost</string>
+    <string name="sound_eq_bass_boost_summary">Deeper, fuller lows.</string>
+    <string name="sound_eq_smooth">Smooth</string>
+    <string name="sound_eq_smooth_summary">Soft and warm, easy on long listens.</string>
+    <string name="sound_eq_dynamic">Dynamic</string>
+    <string name="sound_eq_dynamic_summary">Punchy lows and crisp highs.</string>
+    <string name="sound_eq_clear">Clear</string>
+    <string name="sound_eq_clear_summary">Voices and detail step forward.</string>
+    <string name="sound_eq_treble_boost">Treble boost</string>
+    <string name="sound_eq_treble_boost_summary">Brighter, airier highs.</string>
+    <string name="sound_eq_custom">Custom</string>
+    <string name="sound_eq_custom_summary">Your own sound. Drag the bands to shape it.</string>
+    <string name="sound_eq_fx_off">AxionFx is turned off, so the equalizer can\'t be heard.</string>
+    <string name="sound_eq_fx_turn_on">Turn on</string>
+    <string name="sound_eq_band_description">%1$s Hz, %2$d dB</string>
 </resources>
