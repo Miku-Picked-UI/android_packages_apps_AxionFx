@@ -80,7 +80,11 @@ class AxionFxViewModel(private val prefs: SharedPreferences) {
 
     fun getAudioStats(): AudioStats {
         val nativeSr = AudioTrack.getNativeOutputSampleRate(AudioManager.STREAM_MUSIC)
-        val minBuf = AudioTrack.getMinBufferSize(nativeSr, 2, android.media.AudioFormat.ENCODING_PCM_FLOAT)
+        val minBuf = AudioTrack.getMinBufferSize(
+            nativeSr,
+            android.media.AudioFormat.CHANNEL_OUT_STEREO,
+            android.media.AudioFormat.ENCODING_PCM_FLOAT,
+        )
         val frameSizeBytes = 2 * 4
         val framesPerBuf = if (frameSizeBytes > 0) minBuf / frameSizeBytes else 0
         val latencyMs = if (nativeSr > 0) (framesPerBuf * 1000f / nativeSr) else 0f

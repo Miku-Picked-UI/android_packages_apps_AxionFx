@@ -240,7 +240,7 @@
     <string name="stat_channels">Canais</string>
     <string name="stat_bit_depth">Intensidade de Bits</string>
     <string name="stat_session">Sessão</string>
-    <string name="stat_latency">Latência</string>
+    <string name="stat_latency">Buffer mín. do app</string>
     <string name="detail_placeholder">Selecionar um efeito para configurar</string>
     <string name="nav_device_profiles">Perfis do Dispositivo</string>
     <string name="nav_device_profiles_summary">Predefinições deslizáveis por saída de áudio</string>

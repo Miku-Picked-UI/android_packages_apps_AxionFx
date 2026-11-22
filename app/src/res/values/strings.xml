@@ -258,7 +258,7 @@
     <string name="stat_channels">Channels</string>
     <string name="stat_bit_depth">Bit Depth</string>
     <string name="stat_session">Session</string>
-    <string name="stat_latency">Latency</string>
+    <string name="stat_latency">Min app buffer</string>
     <string name="detail_placeholder">Select an effect to configure</string>
 
     <string name="nav_device_profiles">Device Profiles</string>

@@ -240,7 +240,7 @@
     <string name="stat_channels">Канали</string>
     <string name="stat_bit_depth">Розрядність</string>
     <string name="stat_session">Сеанс</string>
-    <string name="stat_latency">Затримка</string>
+    <string name="stat_latency">Мін. буфер застосунку</string>
     <string name="detail_placeholder">Виберіть ефект для налаштування</string>
     <string name="nav_device_profiles">Профілі пристрою</string>
     <string name="nav_device_profiles_summary">Пресети з можливістю гортання для кожного аудіовиходу</string>

@@ -233,7 +233,7 @@
     <string name="stat_channels">声道数</string>
     <string name="stat_bit_depth">位深</string>
     <string name="stat_session">会话</string>
-    <string name="stat_latency">延迟</string>
+    <string name="stat_latency">最小应用缓冲</string>
     <string name="detail_placeholder">选择一个效果进行配置</string>
 
     <string name="nav_device_profiles">设备配置文件</string>

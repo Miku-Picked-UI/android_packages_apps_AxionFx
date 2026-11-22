@@ -240,7 +240,7 @@
     <string name="stat_channels">聲道</string>
     <string name="stat_bit_depth">位元深度</string>
     <string name="stat_session">工作階段</string>
-    <string name="stat_latency">延遲</string>
+    <string name="stat_latency">最小應用程式緩衝</string>
     <string name="detail_placeholder">選取效果以進行設定</string>
     <string name="nav_device_profiles">裝置設定檔</string>
     <string name="nav_device_profiles_summary">各音訊輸出的專屬預設集</string>

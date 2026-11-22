@@ -240,7 +240,7 @@
     <string name="stat_channels">Каналы</string>
     <string name="stat_bit_depth">Bit Depth</string>
     <string name="stat_session">Session</string>
-    <string name="stat_latency">Задержка</string>
+    <string name="stat_latency">Мин. буфер приложения</string>
     <string name="detail_placeholder">Выберите эффект для настройки</string>
     <string name="nav_device_profiles">Профили устройства</string>
     <string name="nav_device_profiles_summary">Swipeable presets per audio output</string>
