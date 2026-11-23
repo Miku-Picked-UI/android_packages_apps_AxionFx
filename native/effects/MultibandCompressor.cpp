@@ -52,13 +52,35 @@ static inline float fromDb(float dB) {
 void MultibandCompressor::configure(float sampleRate) {
     mSampleRate = sampleRate;
     for (int i = 0; i < MCOMP_BANDS - 1; ++i) {
-        mLowpassL[i].configure(BiquadType::LOWPASS, sampleRate, mCrossoverFreqs[i], 0.0f, 0.707f);
-        mLowpassR[i].configure(BiquadType::LOWPASS, sampleRate, mCrossoverFreqs[i], 0.0f, 0.707f);
-        mHighpassL[i].configure(BiquadType::HIGHPASS, sampleRate, mCrossoverFreqs[i], 0.0f, 0.707f);
-        mHighpassR[i].configure(BiquadType::HIGHPASS, sampleRate, mCrossoverFreqs[i], 0.0f, 0.707f);
+        configureCrossover(i);
     }
     for (auto& band : mBands) {
         updateCoeffs(band);
+    }
+}
+
+void MultibandCompressor::Lr4Split::configure(float sampleRate, float hz) {
+    lp1.configure(BiquadType::LOWPASS, sampleRate, hz, 0.0f, 0.70710678f);
+    lp2.configure(BiquadType::LOWPASS, sampleRate, hz, 0.0f, 0.70710678f);
+    hp1.configure(BiquadType::HIGHPASS, sampleRate, hz, 0.0f, 0.70710678f);
+    hp2.configure(BiquadType::HIGHPASS, sampleRate, hz, 0.0f, 0.70710678f);
+}
+
+void MultibandCompressor::Lr4Split::reset() {
+    lp1.reset();
+    lp2.reset();
+    hp1.reset();
+    hp2.reset();
+}
+
+void MultibandCompressor::configureCrossover(int index) {
+    const float hz = mCrossoverFreqs[index];
+    for (int ch = 0; ch < 2; ++ch) {
+        mSplit[index][ch].configure(mSampleRate, hz);
+        // Bands below this crossover get its all-pass
+        for (int b = 0; b < index; ++b) {
+            mComp[b][index][ch].configure(mSampleRate, hz);
+        }
     }
 }
 
@@ -98,10 +120,15 @@ void MultibandCompressor::processBlock(float* buffer, int frames) {
         float remainR = r;
 
         for (int b = 0; b < MCOMP_BANDS - 1; ++b) {
-            mBandBufL[b][f] = mLowpassL[b].process(remainL);
-            mBandBufR[b][f] = mLowpassR[b].process(remainR);
-            remainL = mHighpassL[b].process(remainL);
-            remainR = mHighpassR[b].process(remainR);
+            float lowL, lowR;
+            mSplit[b][0].split(remainL, lowL, remainL);
+            mSplit[b][1].split(remainR, lowR, remainR);
+            for (int j = b + 1; j < MCOMP_BANDS - 1; ++j) {
+                lowL = mComp[b][j][0].allpass(lowL);
+                lowR = mComp[b][j][1].allpass(lowR);
+            }
+            mBandBufL[b][f] = lowL;
+            mBandBufR[b][f] = lowR;
         }
         mBandBufL[MCOMP_BANDS - 1][f] = remainL;
         mBandBufR[MCOMP_BANDS - 1][f] = remainR;
@@ -175,19 +202,16 @@ void MultibandCompressor::setBandMakeup(int band, float dB) {
 void MultibandCompressor::setCrossoverFreq(int index, float hz) {
     if (index >= 0 && index < MCOMP_BANDS - 1) {
         mCrossoverFreqs[index] = hz;
-        mLowpassL[index].configure(BiquadType::LOWPASS, mSampleRate, hz, 0.0f, 0.707f);
-        mLowpassR[index].configure(BiquadType::LOWPASS, mSampleRate, hz, 0.0f, 0.707f);
-        mHighpassL[index].configure(BiquadType::HIGHPASS, mSampleRate, hz, 0.0f, 0.707f);
-        mHighpassR[index].configure(BiquadType::HIGHPASS, mSampleRate, hz, 0.0f, 0.707f);
+        configureCrossover(index);
     }
 }
 
 void MultibandCompressor::reset() {
     for (int i = 0; i < MCOMP_BANDS - 1; ++i) {
-        mLowpassL[i].reset();
-        mLowpassR[i].reset();
-        mHighpassL[i].reset();
-        mHighpassR[i].reset();
+        for (int ch = 0; ch < 2; ++ch) {
+            mSplit[i][ch].reset();
+            for (int b = 0; b < MCOMP_BANDS - 1; ++b) mComp[b][i][ch].reset();
+        }
     }
     for (auto& band : mBands) {
         band.envelopeDb = DB_FLOOR;
